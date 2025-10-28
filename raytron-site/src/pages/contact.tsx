@@ -295,12 +295,13 @@ export default function ContactPage({ locale = 'en' }: { locale?: 'en' | 'zh-CN'
                       <h3 className="font-semibold mb-1">
                         {locale === 'en' ? 'Email' : '邮箱'}
                       </h3>
-                      
-                        href={`mailto:${config.company.email}`}
-                        className="text-primary-100 hover:text-white transition-colors"
-                      >
-                        {config.company.email}
-                      </a>
+                      <a
+  href={`mailto:${config.company.email}`}
+  className="text-primary-100 hover:text-white transition-colors"
+>
+  {config.company.email}
+</a>
+
                     </div>
                   </div>
 
