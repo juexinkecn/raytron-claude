@@ -1,12 +1,52 @@
-// Site configuration for both domains
-export const siteConfig = {
+export type Locale = 'en' | 'zh-CN';
+
+export interface NavItem {
+  name: string;
+  href: string;
+}
+
+export interface SiteConfig {
+  domain: string;
+  locale: Locale;
+  hreflang: string;
+  name: string;
+
+  title: string;
+  description: string;
+  keywords: string[];
+
+  company: {
+    name: string;
+    legalName: string;
+    email: string;
+    phone: string;
+    address: {
+      street: string;
+      city: string;
+      region: string;
+      postalCode: string;
+      country: string;
+    };
+  };
+
+  social: {
+    linkedin: string;
+    youtube: string;
+    wechat: string;
+  };
+
+  navigation: NavItem[];
+}
+
+export const siteConfig: Record<Locale, SiteConfig> = {
   en: {
     domain: 'https://en.raytron.group',
     locale: 'en',
     hreflang: 'en',
     name: 'Raytron',
     title: 'Raytron - Advanced Metal Composite Materials Manufacturer',
-    description: 'Leading manufacturer of copper clad aluminum, copper clad steel, nickel clad copper, and specialty metal composite materials for cable, solar, battery, and automotive industries.',
+    description:
+      'Leading manufacturer of copper clad aluminum, copper clad steel, nickel clad copper, and specialty metal composite materials for cable, solar, battery, and automotive industries.',
     keywords: [
       'copper clad aluminum',
       'copper clad steel',
@@ -23,12 +63,12 @@ export const siteConfig = {
       name: 'Raytron Group',
       legalName: 'Raytron Advanced Materials Co., Ltd.',
       email: 'info@raytron.group',
-      phone: '+86-xxx-xxxx-xxxx',
+      phone: '+86-186-5753-6277',
       address: {
-        street: 'XXX Industrial Park',
-        city: 'Shenzhen',
-        region: 'Guangdong',
-        postalCode: '518000',
+        street: 'Raytron Industrial Park',
+        city: 'Zhuji',
+        region: 'Zhejiang',
+        postalCode: '311811',
         country: 'China'
       }
     },
@@ -48,13 +88,15 @@ export const siteConfig = {
       { name: 'Contact', href: '/contact/' }
     ]
   },
-  cn: {
+
+  'zh-CN': {
     domain: 'https://cn.raytron.group',
     locale: 'zh-CN',
     hreflang: 'zh-CN',
     name: 'Raytron',
     title: 'Raytron - 先进金属复合材料制造商',
-    description: '领先的铜包铝、铜包钢、镍包铜及特种金属复合材料制造商，服务于线缆、光伏、电池和汽车行业。',
+    description:
+      '领先的铜包铝、铜包钢、镍包铜及特种金属复合材料制造商，服务于线缆、光伏、电池和汽车行业。',
     keywords: [
       '铜包铝',
       '铜包钢',
@@ -71,12 +113,12 @@ export const siteConfig = {
       name: 'Raytron集团',
       legalName: 'Raytron先进材料有限公司',
       email: 'info@raytron.group',
-      phone: '+86-xxx-xxxx-xxxx',
+      phone: '+86-186-5753-6277',
       address: {
-        street: 'XXX工业园',
-        city: '深圳',
-        region: '广东',
-        postalCode: '518000',
+        street: '枫桥锐创工业园',
+        city: '诸暨',
+        region: '浙江',
+        postalCode: '311811',
         country: '中国'
       }
     },
@@ -98,11 +140,11 @@ export const siteConfig = {
   }
 };
 
-export function getSiteConfig(locale: 'en' | 'zh-CN' = 'en') {
+export function getSiteConfig(locale: Locale = 'en'): SiteConfig {
   return siteConfig[locale];
 }
 
-export function getAbsoluteUrl(path: string, locale: 'en' | 'zh-CN' = 'en'): string {
+export function getAbsoluteUrl(path: string, locale: Locale = 'en'): string {
   const config = getSiteConfig(locale);
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   return `${config.domain}${cleanPath}`;
