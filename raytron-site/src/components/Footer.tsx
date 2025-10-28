@@ -100,6 +100,7 @@ export default function Footer({ locale }: FooterProps) {
                 {config.name}
               </span>
             </Link>
+
             <p className="text-gray-400 mb-6 leading-relaxed max-w-md">
               {locale === 'en'
                 ? 'Leading manufacturer of advanced metal composite materials, serving industries worldwide with innovative conductor solutions.'
@@ -107,20 +108,22 @@ export default function Footer({ locale }: FooterProps) {
             </p>
 
             <div className="space-y-3">
-             <a
+              <a
                 href={`mailto:${config.company.email}`}
                 className="flex items-center text-gray-400 hover:text-primary-400 transition-colors"
               >
                 <Mail className="w-5 h-5 mr-3" />
                 {config.company.email}
               </a>
-              
+
+              <a
                 href={`tel:${config.company.phone}`}
                 className="flex items-center text-gray-400 hover:text-primary-400 transition-colors"
               >
                 <Phone className="w-5 h-5 mr-3" />
                 {config.company.phone}
               </a>
+
               <div className="flex items-start text-gray-400">
                 <MapPin className="w-5 h-5 mr-3 mt-0.5" />
                 <span>
@@ -132,16 +135,11 @@ export default function Footer({ locale }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">
-              {footerLinks.products.title}
-            </h3>
+            <h3 className="text-white font-semibold mb-4">{footerLinks.products.title}</h3>
             <ul className="space-y-2">
               {footerLinks.products.links.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={getAbsoluteUrl(link.href, locale)}
-                    className="text-gray-400 hover:text-primary-400 transition-colors"
-                  >
+                  <Link href={getAbsoluteUrl(link.href, locale)} className="text-gray-400 hover:text-primary-400 transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -150,16 +148,11 @@ export default function Footer({ locale }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">
-              {footerLinks.applications.title}
-            </h3>
+            <h3 className="text-white font-semibold mb-4">{footerLinks.applications.title}</h3>
             <ul className="space-y-2">
               {footerLinks.applications.links.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={getAbsoluteUrl(link.href, locale)}
-                    className="text-gray-400 hover:text-primary-400 transition-colors"
-                  >
+                  <Link href={getAbsoluteUrl(link.href, locale)} className="text-gray-400 hover:text-primary-400 transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -168,16 +161,11 @@ export default function Footer({ locale }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">
-              {footerLinks.company.title}
-            </h3>
+            <h3 className="text-white font-semibold mb-4">{footerLinks.company.title}</h3>
             <ul className="space-y-2 mb-6">
               {footerLinks.company.links.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={getAbsoluteUrl(link.href, locale)}
-                    className="text-gray-400 hover:text-primary-400 transition-colors"
-                  >
+                  <Link href={getAbsoluteUrl(link.href, locale)} className="text-gray-400 hover:text-primary-400 transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -186,10 +174,7 @@ export default function Footer({ locale }: FooterProps) {
             <ul className="space-y-2">
               {footerLinks.legal.links.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={getAbsoluteUrl(link.href, locale)}
-                    className="text-gray-400 hover:text-primary-400 transition-colors text-sm"
-                  >
+                  <Link href={getAbsoluteUrl(link.href, locale)} className="text-gray-400 hover:text-primary-400 transition-colors text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -208,7 +193,7 @@ export default function Footer({ locale }: FooterProps) {
             </p>
 
             <div className="flex items-center space-x-4">
-              
+              <a
                 href={config.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -217,7 +202,8 @@ export default function Footer({ locale }: FooterProps) {
               >
                 <Linkedin className="w-4 h-4" />
               </a>
-              
+
+              <a
                 href={config.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -226,6 +212,7 @@ export default function Footer({ locale }: FooterProps) {
               >
                 <Youtube className="w-4 h-4" />
               </a>
+
               <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-primary-600 hover:text-white transition-all cursor-pointer group relative">
                 <span className="text-xs font-semibold">微</span>
                 <div className="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white px-3 py-2 rounded text-xs whitespace-nowrap">
