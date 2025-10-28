@@ -247,29 +247,30 @@ export default function ContactPage({ locale = 'en' }: { locale?: 'en' | 'zh-CN'
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {contactMethods.map((method, index) => {
-              const Icon = method.icon;
-              return (
-                
-                  key={index}
-                  href={method.href}
-                  className="group bg-white border-2 border-gray-100 rounded-xl p-8 text-center hover:border-primary-200 hover:shadow-elegant transition-all duration-300"
-                >
-                  <div className={`inline-flex items-center justify-center w-16 h-16 bg-${method.color}-100 rounded-full mb-4 group-hover:scale-110 transition-transform`}>
-                    <Icon className={`w-8 h-8 text-${method.color}-600`} />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {method.title}
-                  </h3>
-                  <p className="text-primary-600 font-medium mb-1">
-                    {method.primary}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {method.secondary}
-                  </p>
-                </a>
-              );
-            })}
+           {contactMethods.map((method, index) => {
+  const Icon = method.icon;
+  return (
+    <a
+      key={index}
+      href={method.href}
+      className="group bg-white border-2 border-gray-100 rounded-xl p-8 text-center hover:border-primary-200 hover:shadow-elegant transition-all duration-300"
+    >
+      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 group-hover:scale-110 transition-transform"
+        style={{ backgroundColor: `var(--tw-color-${method.color}-100)` }}>
+        <Icon className={`w-8 h-8 text-${method.color}-600`} />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        {method.title}
+      </h3>
+      <p className="text-primary-600 font-medium mb-1">
+        {method.primary}
+      </p>
+      <p className="text-sm text-gray-500">
+        {method.secondary}
+      </p>
+    </a>
+  );
+})}
           </div>
         </div>
       </section>
