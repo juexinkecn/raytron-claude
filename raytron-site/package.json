@@ -1,14 +1,4 @@
 {
-  "scripts": {
-    "postbuild": "next-sitemap",
-    "build:en": "cp .env.local.en .env.local && NEXT_PUBLIC_LOCALE=en SITE_URL=https://en.raytron.group next build && npm run postbuild",
-    "build:cn": "cp .env.local.cn .env.local && NEXT_PUBLIC_LOCALE=zh-CN SITE_URL=https://cn.raytron.group next build && npm run postbuild"
-  },
-  "dependencies": {
-    "next-sitemap": "^4.2.3"
-  }
-}
-{
   "name": "raytron-website",
   "version": "1.0.0",
   "private": true,
@@ -18,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "postbuild": "next-sitemap",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "build:en": "cp .env.local.en .env.local && NEXT_PUBLIC_LOCALE=en SITE_URL=https://en.raytron.group next build && npm run postbuild",
+    "build:cn": "cp .env.local.cn .env.local && NEXT_PUBLIC_LOCALE=zh-CN SITE_URL=https://cn.raytron.group next build && npm run postbuild"
   },
   "dependencies": {
     "next": "^14.2.0",
