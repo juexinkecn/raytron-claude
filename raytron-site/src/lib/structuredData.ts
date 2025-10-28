@@ -1,18 +1,23 @@
-// src/lib/structuredData.ts
+// src/lib/structuredData.ts (改进版)
+import { getSiteUrl } from '@/components/AbsoluteLink';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || '';
-const LOCALE = process.env.NEXT_PUBLIC_LOCALE || 'en';
+function getConfig() {
+  const siteUrl = getSiteUrl();
+  const locale = process.env.NEXT_PUBLIC_LOCALE || 'en';
+  return { siteUrl, locale };
+}
 
-// Organization Schema - 公司信息
 export function generateOrganizationSchema() {
+  const { siteUrl, locale } = getConfig();
+  
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Raytron Advanced Materials Co., Ltd.",
-    "alternateName": LOCALE === 'zh-CN' ? "瑞创新材料有限公司" : "Raytron",
-    "url": SITE_URL,
-    "logo": `${SITE_URL}/images/logo.png`,
-    "description": LOCALE === 'zh-CN' 
+    "alternateName": locale === 'zh-CN' ? "瑞创新材料有限公司" : "Raytron",
+    "url": siteUrl,
+    "logo": `${siteUrl}/images/logo.png`,
+    "description": locale === 'zh-CN' 
       ? "Raytron是专业的铜包覆材料制造商，提供铜包铝、铜包钢、镍包铜等高性能导体材料。"
       : "Raytron is a leading manufacturer of copper clad materials, offering CCA, CCS, NCC and other high-performance conductor materials.",
     "contactPoint": {
@@ -25,7 +30,7 @@ export function generateOrganizationSchema() {
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "CN",
-      "addressLocality": LOCALE === 'zh-CN' ? "深圳市" : "Shenzhen"
+      "addressLocality": locale === 'zh-CN' ? "深圳市" : "Shenzhen"
     },
     "sameAs": [
       "https://www.linkedin.com/company/raytron",
@@ -34,8 +39,13 @@ export function generateOrganizationSchema() {
   };
 }
 
-// BreadcrumbList Schema - 面包屑导航
 export function generateBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
+  items.forEach(item => {
+    if (!item.url.startsWith('http')) {
+      console.warn(`⚠️ Breadcrumb URL should be absolute: ${item.url}`);
+    }
+  });
+
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -48,7 +58,6 @@ export function generateBreadcrumbSchema(items: Array<{ name: string; url: strin
   };
 }
 
-// Product Schema - 产品
 interface ProductSchemaProps {
   name: string;
   description: string;
@@ -61,16 +70,15 @@ interface ProductSchemaProps {
 }
 
 export function generateProductSchema(props: ProductSchemaProps) {
-  const {
-    name,
-    description,
-    image,
-    sku,
-    brand = "Raytron",
-    category,
-    material,
-    url
-  } = props;
+  const { name, description, image, sku, brand = "Raytron", category, material, url } = props;
+
+  if (!name || !description || !url) {
+    throw new Error('Product schema requires name, description, and url');
+  }
+
+  if (!url.startsWith('http')) {
+    throw new Error(`Product URL must be absolute: ${url}`);
+  }
 
   return {
     "@context": "https://schema.org",
@@ -99,13 +107,17 @@ export function generateProductSchema(props: ProductSchemaProps) {
   };
 }
 
-// FAQ Schema - 常见问题
 interface FAQItem {
   question: string;
   answer: string;
 }
 
 export function generateFAQSchema(faqs: FAQItem[]) {
+  if (!faqs || faqs.length === 0) {
+    console.warn('⚠️ FAQ schema called with empty array');
+    return null;
+  }
+
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -120,7 +132,6 @@ export function generateFAQSchema(faqs: FAQItem[]) {
   };
 }
 
-// Article Schema - 博客文章
 interface ArticleSchemaProps {
   headline: string;
   description: string;
@@ -132,15 +143,8 @@ interface ArticleSchemaProps {
 }
 
 export function generateArticleSchema(props: ArticleSchemaProps) {
-  const {
-    headline,
-    description,
-    image,
-    datePublished,
-    dateModified,
-    author = "Raytron Team",
-    url
-  } = props;
+  const { siteUrl } = getConfig();
+  const { headline, description, image, datePublished, dateModified, author = "Raytron Team", url } = props;
 
   return {
     "@context": "https://schema.org",
@@ -159,35 +163,40 @@ export function generateArticleSchema(props: ArticleSchemaProps) {
       "name": "Raytron Advanced Materials Co., Ltd.",
       "logo": {
         "@type": "ImageObject",
-        "url": `${SITE_URL}/images/logo.png`
+        "url": `${siteUrl}/images/logo.png`
       }
     },
     "url": url
   };
 }
 
-// WebSite Schema - 网站
 export function generateWebSiteSchema() {
+  const { siteUrl } = getConfig();
+  
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Raytron",
-    "url": SITE_URL,
+    "url": siteUrl,
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": `${SITE_URL}/search?q={search_term_string}`
+        "urlTemplate": `${siteUrl}/search?q={search_term_string}`
       },
       "query-input": "required name=search_term_string"
     }
   };
 }
 
-// 组合多个结构化数据
 export function combineStructuredData(...schemas: any[]) {
+  const validSchemas = schemas.filter(schema => schema !== null);
+  
+  if (validSchemas.length === 0) return null;
+  if (validSchemas.length === 1) return validSchemas[0];
+  
   return {
     "@context": "https://schema.org",
-    "@graph": schemas
+    "@graph": validSchemas
   };
 }
