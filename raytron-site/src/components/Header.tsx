@@ -5,6 +5,10 @@ import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { getSiteConfig, getAbsoluteUrl } from '@/config/site';
 
+interface NavItem {
+  name: string;
+  href: string;
+}
 interface HeaderProps {
   locale: 'en' | 'zh-CN';
 }
@@ -61,7 +65,7 @@ export default function Header({ locale }: HeaderProps) {
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-1">
-            {config.navigation.map((item) => {
+            {config.navigation.map((item: NavItem) => {
               if (item.name === 'Products' || item.name === '产品') {
                 return (
                   <div key={item.name} className="relative group">
