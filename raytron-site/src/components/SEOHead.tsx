@@ -6,7 +6,7 @@ import { getSiteUrl, getAlternateUrl } from './AbsoluteLink';
 interface SEOHeadProps {
   title: string;
   description: string;
-  keywords?: string;
+  keywords?: string[];
   image?: string;
   type?: 'website' | 'article' | 'product';
   structuredData?: any;
