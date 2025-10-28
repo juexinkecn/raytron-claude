@@ -107,7 +107,7 @@ export default function Footer({ locale }: FooterProps) {
             </p>
 
             <div className="space-y-3">
-              
+             <a
                 href={`mailto:${config.company.email}`}
                 className="flex items-center text-gray-400 hover:text-primary-400 transition-colors"
               >
