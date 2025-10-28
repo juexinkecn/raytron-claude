@@ -10,6 +10,7 @@ interface SEOHeadProps {
   image?: string;
   type?: 'website' | 'article' | 'product';
   structuredData?: any;
+  locale?: 'en' | 'zh-CN';
   noindex?: boolean;
 }
 
