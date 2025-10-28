@@ -251,24 +251,24 @@ export default function ContactPage({ locale = 'en' }: { locale?: 'en' | 'zh-CN'
   const Icon = method.icon;
   return (
     <a
-      key={index}
-      href={method.href}
-      className="group bg-white border-2 border-gray-100 rounded-xl p-8 text-center hover:border-primary-200 hover:shadow-elegant transition-all duration-300"
-    >
-      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 group-hover:scale-110 transition-transform"
-        style={{ backgroundColor: `var(--tw-color-${method.color}-100)` }}>
-        <Icon className={`w-8 h-8 text-${method.color}-600`} />
-      </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">
-        {method.title}
-      </h3>
-      <p className="text-primary-600 font-medium mb-1">
-        {method.primary}
-      </p>
-      <p className="text-sm text-gray-500">
-        {method.secondary}
-      </p>
-    </a>
+  key={index}
+  href={method.href}
+  className="group bg-white border-2 border-gray-100 rounded-xl p-8 text-center hover:border-primary-200 hover:shadow-elegant transition-all duration-300"
+>
+  <div className={`inline-flex items-center justify-center w-16 h-16 ${colorStyles[method.color]} rounded-full mb-4 group-hover:scale-110 transition-transform`}>
+    <Icon className="w-8 h-8" />
+  </div>
+  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+    {method.title}
+  </h3>
+  <p className="text-primary-600 font-medium mb-1">
+    {method.primary}
+  </p>
+  <p className="text-sm text-gray-500">
+    {method.secondary}
+  </p>
+</a>
+
   );
 })}
           </div>
@@ -362,16 +362,16 @@ export default function ContactPage({ locale = 'en' }: { locale?: 'en' | 'zh-CN'
                     {locale === 'en' ? 'Follow Us' : '关注我们'}
                   </h3>
                   <div className="flex space-x-3">
-                    
-                      href={config.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <Globe className="w-5 h-5" />
-                    </a>
-                    
+                    <a
+  href={config.social.linkedin}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+>
+  <Globe className="w-5 h-5" />
+</a>
+
+                     <a
                       href={config.social.youtube}
                       target="_blank"
                       rel="noopener noreferrer"
