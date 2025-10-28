@@ -1,87 +1,102 @@
+// src/components/SEOHead.tsx
 import Head from 'next/head';
-import { getAbsoluteUrl, getSiteConfig } from '@/config/site';
+import { useRouter } from 'next/router';
 
 interface SEOHeadProps {
   title: string;
   description: string;
-  canonical: string;
-  locale: 'en' | 'zh-CN';
-  alternateUrl: string;
-  keywords?: string[];
-  ogImage?: string;
-  structuredData?: object | object[];
+  keywords?: string;
+  image?: string;
+  type?: 'website' | 'article' | 'product';
+  structuredData?: any;
+  noindex?: boolean;
 }
 
 export default function SEOHead({
   title,
   description,
-  canonical,
-  locale,
-  alternateUrl,
   keywords,
-  ogImage,
+  image,
+  type = 'website',
   structuredData,
+  noindex = false,
 }: SEOHeadProps) {
-  const config = getSiteConfig(locale);
-  const alternateLocale = locale === 'en' ? 'zh-CN' : 'en';
-  const defaultOgImage = `${config.domain}/images/og-default.jpg`;
-  const finalOgImage = ogImage || defaultOgImage;
+  const router = useRouter();
+  
+  // 从环境变量获取当前域名和语言
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const locale = process.env.NEXT_PUBLIC_LOCALE || 'en';
+  
+  // 构建当前页面的绝对URL
+  const currentPath = router.asPath.split('?')[0].split('#')[0];
+  const canonicalUrl = `${siteUrl}${currentPath}`;
+  
+  // 构建对应语言版本的URL
+  const alternateUrl = locale === 'en' 
+    ? `https://cn.raytron.group${currentPath}`
+    : `https://en.raytron.group${currentPath}`;
+  
+  // 构建完整标题
+  const fullTitle = `${title} - Raytron`;
+  
+  // 默认图片
+  const ogImage = image || `${siteUrl}/images/og-default.jpg`;
 
   return (
     <Head>
-      <title>{title}</title>
+      {/* 基础Meta标签 */}
+      <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      {keywords && <meta name="keywords" content={keywords.join(', ')} />}
+      {keywords && <meta name="keywords" content={keywords} />}
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       
-      <link rel="canonical" href={canonical} />
+      {/* Canonical - 必须使用绝对地址 */}
+      <link rel="canonical" href={canonicalUrl} />
       
-      <link rel="alternate" hrefLang={locale} href={canonical} />
-      <link rel="alternate" hrefLang={alternateLocale} href={alternateUrl} />
-      <link rel="alternate" hrefLang="x-default" href={getAbsoluteUrl('/', 'en')} />
+      {/* Hreflang - 双域名互相指向 */}
+      <link 
+        rel="alternate" 
+        hrefLang="en" 
+        href={locale === 'en' ? canonicalUrl : alternateUrl} 
+      />
+      <link 
+        rel="alternate" 
+        hrefLang="zh-CN" 
+        href={locale === 'zh-CN' ? canonicalUrl : alternateUrl} 
+      />
+      <link 
+        rel="alternate" 
+        hrefLang="x-default" 
+        href={`https://en.raytron.group${currentPath}`} 
+      />
       
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={canonical} />
-      <meta property="og:title" content={title} />
+      {/* Robots */}
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      
+      {/* Open Graph */}
+      <meta property="og:type" content={type} />
+      <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={finalOgImage} />
-      <meta property="og:locale" content={locale} />
-      <meta property="og:site_name" content={config.company.name} />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:site_name" content="Raytron" />
+      <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'zh_CN'} />
       
+      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={canonical} />
-      <meta name="twitter:title" content={title} />
+      <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={finalOgImage} />
+      <meta name="twitter:image" content={ogImage} />
       
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-      <meta name="googlebot" content="index, follow" />
-      <meta name="bingbot" content="index, follow" />
-      <meta name="language" content={locale} />
-      <meta httpEquiv="content-language" content={locale} />
-      
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-      
-      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-      
+      {/* 结构化数据 */}
       {structuredData && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              Array.isArray(structuredData)
-                ? structuredData
-                : structuredData
-            ),
+            __html: JSON.stringify(structuredData)
           }}
         />
       )}
-      
-      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
     </Head>
   );
 }
