@@ -49,7 +49,12 @@ export default function SEOHead({
     <Head>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      {keywords && <meta name="keywords" content={keywords} />}
+      {keywords && (
+  <meta 
+    name="keywords" 
+    content={Array.isArray(keywords) ? keywords.join(', ') : keywords} 
+  />
+)}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       
       <link rel="canonical" href={canonicalUrl} />
