@@ -2,11 +2,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Electronics Materials - Copper Foil, FPC & EMI Shielding | Raytron',
-  description: 'Ultra-precision copper foils, flexible circuit materials, EMI shielding, and high-frequency conductors for smartphones, wearables, IoT devices, and advanced electronics. ±0.002mm tolerance, 99.99% purity, RoHS compliant.',
-  keywords: 'electronics copper foil, flexible printed circuits, FPC materials, EMI shielding, high frequency conductors, smartphone materials, copper strip electronics',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Electronics & Connectors - Ultra-Precision Copper Materials | Raytron',
+    description: 'Ultra-precision copper foils, flexible circuit materials, EMI shielding, and high-frequency conductors for smartphones, wearables, IoT devices, and advanced electronics. ±0.002mm tolerance, 99.99% purity, RoHS compliant.',
+    keywords: ['electronics copper foil', 'flexible printed circuits', 'FPC materials', 'EMI shielding', 'high frequency conductors'],
+  };
+}
 
 export default function ElectronicsPage() {
   return (
