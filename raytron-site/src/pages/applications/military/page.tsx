@@ -1,13 +1,14 @@
 // app/applications/military/page.tsx
 import Image from 'next/image';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: 'Aerospace & Defense Materials - MIL-SPEC Conductors | Raytron',
+export async function generateMetadata(): Promise<Metadata> {
+  return {  title: 'Aerospace & Defense Materials - MIL-SPEC Conductors | Raytron',
   description: 'High-reliability conductors for aircraft systems, satellites, defense electronics, and aerospace applications. MIL-SPEC compliant, extreme environment tested, AS9100 certified. -55°C to +200°C operating range.',
   keywords: 'aerospace conductors, military-spec materials, aircraft wiring, satellite conductors, defense electronics, MIL-SPEC copper, space-grade materials, aerospace certification',
 };
-
+}
 export default function MilitaryAerospacePage() {
   return (
     <div className="min-h-screen bg-white">
