@@ -1,6 +1,7 @@
 // app/applications/electronics/page.tsx
 import Image from 'next/image';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
